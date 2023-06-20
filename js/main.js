@@ -1,3 +1,8 @@
+// Необходимое количество сгенерированных объектов
+
+const SIMILAR_PHOTOS_COUNT = 25;
+const SIMILAR_COMMENT_COUNT = 30;
+
 // Функция-генератор для получения случайных идентификаторов из указанного диапазона
 
 const getRandomInteger = (a, b) => {
@@ -13,7 +18,6 @@ function createRandomIdFromRangeGenerator (min, max) {
   return function () {
     let currentValue = getRandomInteger(min, max);
     if (previousValues.length >= (max - min + 1)) {
-      window.console.error(`Перебраны все числа из диапазона от ${ min } до ${ max}`);
       return null;
     }
     while (previousValues.includes(currentValue)) {
@@ -25,7 +29,7 @@ function createRandomIdFromRangeGenerator (min, max) {
 }
 
 const generatePhotoId = createRandomIdFromRangeGenerator(1, 25);
-const generateCommentId = createRandomIdFromRangeGenerator(1, 25);
+const generateCommentId = createRandomIdFromRangeGenerator(1, 30);
 
 // Функция-генератор для получения уникальных идентификаторов
 
@@ -75,22 +79,20 @@ const NAMES = [
   'Дина'
 ];
 
+const comment = () => ({
+  id: generateCommentId(),
+  avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+  message: MESSAGES[getRandomInteger(0, DESCRIPTIONS.length - 1)],
+  name: NAMES[getRandomInteger(0, DESCRIPTIONS.length - 1)]
+});
+
 const createPhotos = () => ({
   id: generatePhotoId(),
   url: `photos/${generatePhotoUrl()}.jpg`,
   description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
   likes: getRandomInteger(15, 200),
-  comments: {
-    id: generateCommentId(),
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    message: MESSAGES[getRandomInteger(0, DESCRIPTIONS.length - 1)],
-    name: NAMES[getRandomInteger(0, DESCRIPTIONS.length - 1)],
-  }
+  comments: Array.from({length: SIMILAR_COMMENT_COUNT}, comment)
 });
-
-// Необходимое количество сгенерированных объектов
-
-const SIMILAR_PHOTOS_COUNT = 25;
 
 const similarPhotos = Array.from({length: SIMILAR_PHOTOS_COUNT}, createPhotos);
 

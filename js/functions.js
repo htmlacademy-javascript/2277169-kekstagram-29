@@ -6,15 +6,15 @@
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
 
 // Cтрока короче 20 символов
-window.console.log(checkStringLength('проверяемая строка', 20));
+checkStringLength('проверяемая строка', 20);
 // true
 
 // Длина строки ровно 18 символов
-window.console.log(checkStringLength('проверяемая строка', 18));
+checkStringLength('проверяемая строка', 18);
 // true
 
 // Строка длиннее 10 символов
-window.console.log(checkStringLength('проверяемая строка', 10));
+checkStringLength('проверяемая строка', 10);
 // false
 
 const isPalindrome = (string) => {
@@ -29,11 +29,11 @@ const isPalindrome = (string) => {
 };
 
 // Строка является палиндромом
-window.console.log(isPalindrome('топот'));
+isPalindrome('топот');
 // true
 // Несмотря на разный регистр, тоже палиндром
-window.console.log(isPalindrome('ДовОд'));
+isPalindrome('ДовОд');
 // true
 // Это не палиндром
-window.console.log(isPalindrome('Кекс'));
+isPalindrome('Кекс');
 // false
