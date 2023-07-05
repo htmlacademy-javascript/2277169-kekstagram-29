@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomArrayElement, generateCommentId} from './utils.js';
+import {getRandomInteger, getRandomArrayElement, createIdGenerator} from './utils.js';
 
 // Описание фотографий
 
@@ -37,12 +37,17 @@ const NAMES = [
 
 // Необходимое количество сгенерированных объектов
 
-const SIMILAR_PHOTOS_COUNT = 25;
+const SIMILAR_PHOTO_COUNT = 25;
 const SIMILAR_COMMENT_COUNT = 30;
+const AVATAR_MAX_COUNT = 6;
+const LIKES_MIN_COUNT = 15;
+const LIKES_MAX_COUNT = 200;
+
+const generateCommentId = createIdGenerator();
 
 const comment = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_MAX_COUNT)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES)
 });
@@ -51,10 +56,10 @@ const createPhotos = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandomInteger(15, 200),
+  likes: getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT),
   comments: Array.from({length: SIMILAR_COMMENT_COUNT}, comment)
 });
 
-const similarPhotos = Array.from({length: SIMILAR_PHOTOS_COUNT}, (_, index) => createPhotos(index + 1));
+const similarPhotos = () => Array.from({length: SIMILAR_PHOTO_COUNT}, (_, index) => createPhotos(index + 1));
 
 export {similarPhotos};
