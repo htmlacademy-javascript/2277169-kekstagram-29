@@ -10,24 +10,15 @@ function getRandomInteger (min, max) {
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-// Функция-генератор для получения случайных идентификаторов из указанного диапазона
+// Функция-генератор для получения случайных идентификаторов
 
-function createRandomIdFromRangeGenerator (min, max) {
-  const previousValues = [];
+const createIdGenerator = () => {
+  let lastGeneratedId = 0;
 
-  return function () {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
+  return () => {
+    lastGeneratedId += 1;
+    return lastGeneratedId;
   };
-}
+};
 
-const generateCommentId = createRandomIdFromRangeGenerator(1, 30);
-
-export {getRandomInteger, getRandomArrayElement, generateCommentId};
+export {getRandomInteger, getRandomArrayElement, createIdGenerator};
