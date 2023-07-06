@@ -1,4 +1,4 @@
-import './functions.js';
-import {similarPhotos} from './data.js';
+import { similarPhotos } from './data.js';
+import { renderPictures } from './pictures.js';
 
-window.console.log(similarPhotos);
+renderPictures(similarPhotos());
