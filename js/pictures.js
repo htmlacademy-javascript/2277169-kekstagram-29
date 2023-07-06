@@ -1,18 +1,23 @@
-import {similarPhotos} from './data.js';
-
 const picturesContainer = document.querySelector('.pictures');
-const fragment = document.createDocumentFragment();
 const picturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const display = similarPhotos();
+const createCard = (({url, description, likes, comments}) => {
+  const card = picturesTemplate.cloneNode(true);
+  card.querySelector('.picture__img').src = url;
+  card.querySelector('.picture__comments').textContent = comments.length;
+  card.querySelector('.picture__img').alt = description;
+  card.querySelector('.picture__likes').textContent = likes;
 
-display.forEach(({url, description, likes, comments}) => {
-  const element = picturesTemplate.cloneNode(true);
-  element.querySelector('.picture__img').src = url;
-  element.querySelector('.picture__comments').textContent = comments.length;
-  element.querySelector('.picture__img').alt = description;
-  element.querySelector('.picture__likes').textContent = likes;
-  fragment.appendChild(element);
+  return card;
 });
 
-picturesContainer.appendChild(fragment);
+const renderPictures = (pictures) => {
+  const fragment = document.createDocumentFragment();
+  pictures.forEach((picture) => {
+    const card = createCard(picture);
+    fragment.appendChild(card);
+  });
+  picturesContainer.appendChild(fragment);
+};
+
+export { renderPictures };

@@ -62,4 +62,4 @@ const createPhotos = (index) => ({
 
 const similarPhotos = () => Array.from({length: SIMILAR_PHOTO_COUNT}, (_, index) => createPhotos(index + 1));
 
-export {similarPhotos};
+export { similarPhotos };
