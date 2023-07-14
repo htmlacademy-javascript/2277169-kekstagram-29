@@ -1,8 +1,9 @@
 const picturesContainer = document.querySelector('.pictures');
 const picturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const createCard = (({url, description, likes, comments}) => {
+const createCard = (({id, url, description, likes, comments}) => {
   const card = picturesTemplate.cloneNode(true);
+  card.dataset.id = id;
   card.querySelector('.picture__img').src = url;
   card.querySelector('.picture__comments').textContent = comments.length;
   card.querySelector('.picture__img').alt = description;
