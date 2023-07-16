@@ -5,9 +5,6 @@ const bigPicture = document.querySelector('.big-picture');
 const picturesContainer = document.querySelector('.pictures');
 const bigPictureClose = bigPicture.querySelector('.big-picture__cancel');
 
-const commentCount = document.querySelector('.social__comment-count');
-const commentsLoader = document.querySelector('.comments-loader');
-
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -22,9 +19,6 @@ const onBigPictureCloseClick = () => {
 function openBigPicture() {
   bigPicture.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
-
-  commentCount.classList.add('hidden');
-  commentsLoader.classList.add('hidden');
 
   document.addEventListener('keydown', onDocumentKeydown);
   bigPictureClose.addEventListener('click', onBigPictureCloseClick);
