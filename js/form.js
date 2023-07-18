@@ -7,6 +7,7 @@ const bodyElement = document.querySelector('body');
 const uploadCancel = document.querySelector('.img-upload__cancel');
 const textHashtags = uploadOverlay.querySelector('.text__hashtags');
 const textDescription = uploadOverlay.querySelector('.text__description');
+const uploadForm = document.querySelector('.img-upload__form');
 
 const closeModal = () => {
   uploadOverlay.classList.add('hidden');
@@ -40,5 +41,25 @@ textDescription.addEventListener('keydown', (evt) => {
     evt.stopPropagation();
   }
 });
+
+const pristine = new Pristine (uploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'error',
+});
+
+uploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  const isValid = pristine.validate();
+  if (isValid) {
+    window.console.log('Можно отправлять');
+  } else {
+    window.console.log('Форма невалидна');
+  }
+});
+
+const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
+window.console.log(hashtag);
 
 uploadInput.addEventListener('change', openModal);
