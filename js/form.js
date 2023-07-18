@@ -1,4 +1,3 @@
-import '../vendor/pristine/pristine.min.js';
 import { isEscapeKey} from './utils.js';
 
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -8,39 +7,44 @@ const uploadCancel = document.querySelector('.img-upload__cancel');
 const textHashtags = uploadOverlay.querySelector('.text__hashtags');
 const textDescription = uploadOverlay.querySelector('.text__description');
 const uploadForm = document.querySelector('.img-upload__form');
+const redexp = /^#[a-zа-яё0-9]{1,19}$/i;
+
+window.console.log(redexp);
 
 const closeModal = () => {
   uploadOverlay.classList.add('hidden');
   bodyElement.classList.remove('.modal-open');
 
   uploadInput.value = ''; // сбрасывает значение поля выбора файла ??
+
+  document.removeEventListener('keydown', onDocumentKeydown);
+  textHashtags.removeEventListener('keydown', onFormFieldKeydown);
+  textDescription.removeEventListener('keydown', onFormFieldKeydown);
 };
 
 const openModal = () => {
   uploadOverlay.classList.remove('hidden');
   bodyElement.classList.add('.modal-open');
   uploadCancel.addEventListener('click', closeModal);
-  document.addEventListener('keydown', closeModalEscape);
+  document.addEventListener('keydown', onDocumentKeydown);
+
+
+  textHashtags.addEventListener('keydown', onFormFieldKeydown);
+  textDescription.addEventListener('keydown', onFormFieldKeydown);
 };
 
-function closeModalEscape(evt) {
+function onFormFieldKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+  }
+}
+
+function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeModal();
   }
 }
-
-textHashtags.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
-});
-
-textDescription.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
-});
 
 const pristine = new Pristine (uploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -48,7 +52,7 @@ const pristine = new Pristine (uploadForm, {
   errorTextClass: 'error',
 });
 
-uploadForm.addEventListener('submit', (evt) => {
+function onUploadFormSubmit(evt) {
   evt.preventDefault();
 
   const isValid = pristine.validate();
@@ -57,9 +61,8 @@ uploadForm.addEventListener('submit', (evt) => {
   } else {
     window.console.log('Форма невалидна');
   }
-});
+}
 
-const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-window.console.log(hashtag);
+uploadForm.addEventListener('submit', onUploadFormSubmit);
 
 uploadInput.addEventListener('change', openModal);
