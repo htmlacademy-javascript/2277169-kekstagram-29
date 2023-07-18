@@ -41,7 +41,6 @@ function closeBigPicture() {
   document.removeEventListener('keydown', onDocumentKeydown);
   bigPictureClose.removeEventListener('click', onBigPictureCloseClick);
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
-
 }
 
 const onPicturesContainerClick = ({ target }) => {
