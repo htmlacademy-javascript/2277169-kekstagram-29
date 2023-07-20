@@ -41,15 +41,17 @@ function closeBigPicture() {
   document.removeEventListener('keydown', onDocumentKeydown);
   bigPictureClose.removeEventListener('click', onBigPictureCloseClick);
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
-
 }
 
-const onPicturesContainerClick = ({ target }) => {
-  if (!target.closest('.picture')) {
+const onPicturesContainerClick = (evt) => {
+  if (!evt.target.closest('.picture')) {
     return;
   }
-  const cardDataId = target.closest('.picture').dataset.id;
+  const cardDataId = evt.target.closest('.picture').dataset.id;
   const photoData = data.find((element) => element.id === Number(cardDataId));
+
+  evt.preventDefault();
+
   fillBigPicture(photoData);
   openBigPicture();
 };
