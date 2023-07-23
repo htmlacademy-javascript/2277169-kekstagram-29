@@ -53,7 +53,7 @@ const DEFAULT_EFFECT = EFFECTS[0];
 
 const rangesSliderContainer = document.querySelector('.effect-level');
 const rangeSlider = document.querySelector('.effect-level__slider');
-const rangeSliderInput = document.querySelector('.effect-level__value');
+const rangeSliderField = document.querySelector('.effect-level__value');
 const effectsList = document.querySelector('.effects');
 const image = document.querySelector('.img-upload__preview');
 
@@ -97,7 +97,7 @@ function onEffectsListClick(evt) {
 
 function onRangeSliderUpdate() {
   const rangeSliderValue = rangeSlider.noUiSlider.get();
-  rangeSliderInput.value = rangeSliderValue;
+  rangeSliderField.value = rangeSliderValue;
   image.style.filter = `${currentEffect.style}(${rangeSliderValue}${currentEffect.unit})`;
 
   if (currentEffect.name === 'none') {
