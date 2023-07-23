@@ -1,8 +1,9 @@
-import { isEscapeKey} from './utils.js';
+import { isEscapeKey } from './utils.js';
+import { resetScale } from './scale.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
-const errorText = {
+const ErrorText = {
   INVALID_COUNT: `Максимум ${MAX_HASHTAG_COUNT} хэштегов`,
   NOT_UNIQUE: 'Хэштеги должны быть уникальными',
   INVALID_PATTERN: 'Неправильный хэштег',
@@ -24,7 +25,7 @@ const pristine = new Pristine(form, {
 
 const closeModal = () => {
   form.reset();
-  // resetScale();
+  resetScale();
   // resetEffect();
   pristine.reset();
 
@@ -78,9 +79,9 @@ const onUploadFormSubmit = (evt) => {
   pristine.validate();
 };
 
-pristine.addValidator(textHashtags, hasValidCount, errorText.INVALID_COUNT,3,true);
-pristine.addValidator(textHashtags, hasUniqueTags, errorText.NOT_UNIQUE,1,true);
-pristine.addValidator(textHashtags, hasValidTags, errorText.INVALID_PATTERN,2,true);
+pristine.addValidator(textHashtags, hasValidCount, ErrorText.INVALID_COUNT,3,true);
+pristine.addValidator(textHashtags, hasUniqueTags, ErrorText.NOT_UNIQUE,1,true);
+pristine.addValidator(textHashtags, hasValidTags, ErrorText.INVALID_PATTERN,2,true);
 
 form.addEventListener('submit', onUploadFormSubmit);
 
