@@ -1,46 +1,33 @@
 import { isEscapeKey } from './utils.js';
 
-const errorMessage = document.querySelector('#error').content.querySelector('.error');
-const successMessage = document.querySelector('#success').content.querySelector('.success');
-const bodyElement = document.querySelector('body');
+const popupContainer = document.querySelector('main');
 
-function renderMessage() {
-  const popupContainer = document.querySelector('main');
-
-  errorMessage.classList.add('hidden');
-  successMessage.classList.add('hidden');
-
-  popupContainer.insertAdjacentElement('afterbegin', errorMessage);
-  popupContainer.insertAdjacentElement('afterbegin', successMessage);
+function onDocumentKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closePopup(evt);
+  }
 }
 
-renderMessage();
+function closePopup (evt, cls) {
+  const { classList } = evt.target;
+
+  if (classList.contains(`${cls}__inner`) || classList.contains(`${cls}__title`)) {
+    return;
+  }
+
+  popupContainer.querySelector(`.${cls}`).remove();
+
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
 
 function showMessage(cls) {
-  const message = bodyElement.querySelector(`.${cls}`);
-  const closeButton = message.querySelector(`.${cls}__button`);
+  const message = document.querySelector(`#${cls}`).cloneNode(true).content.querySelector(`.${cls}`);
+  popupContainer.insertAdjacentElement('afterbegin', message);
   message.classList.remove('hidden');
 
-  const onDocumentKeydown = (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      closePopup();
-    }
-  };
-
-  const onCloseButtonClick = () => {
-    closePopup();
-  };
-
+  message.addEventListener('click', (evt) => closePopup(evt, cls));
   document.addEventListener('keydown', onDocumentKeydown);
-  closeButton.addEventListener('click', onCloseButtonClick);
-
-  function closePopup () {
-    bodyElement.querySelector(`.${cls}`).classList.add('hidden');
-
-    document.removeEventListener('keydown', onDocumentKeydown);
-    closeButton.removeEventListener('click', onCloseButtonClick);
-  }
 }
 
 export { showMessage };
