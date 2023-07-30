@@ -2,6 +2,7 @@ import { isEscapeKey } from './utils.js';
 import { resetScale } from './scale.js';
 import { sendData } from './api.js';
 import { showMessage } from './message.js';
+import { resetDefault } from './effect.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -29,6 +30,7 @@ const pristine = new Pristine(form, {
 const closeModal = () => {
   form.reset();
   resetScale();
+  resetDefault();
   pristine.reset();
 
   uploadOverlay.classList.add('hidden');
