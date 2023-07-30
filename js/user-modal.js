@@ -71,7 +71,7 @@ function renderComments(comments) {
 }
 
 function reviewComments(shownComments, allСomments) {
-  commentCount.innerHTML = `${shownComments} из ${allСomments} комментариев`;
+  commentCount.innerHTML = `${shownComments} из <span class="comments-count">${allСomments}</span> комментариев`;
 
   if (shownComments === allСomments) {
     commentsLoader.classList.add('hidden');

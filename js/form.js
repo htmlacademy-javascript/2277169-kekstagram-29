@@ -95,6 +95,7 @@ const uploadFormData = async () => {
     showMessage('success');
     closeModal();
   } catch {
+    unblockUploadSubmit();
     showMessage('error');
   }
 };

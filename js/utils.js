@@ -1,5 +1,3 @@
-const RERENDER_DELAY = 500;
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlertError = (message) => {
@@ -11,7 +9,7 @@ const showAlertError = (message) => {
   document.body.append(alertContainer);
 };
 
-function debounce (callback, timeoutDelay = RERENDER_DELAY) {
+function debounce (callback, timeoutDelay = 500) {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
