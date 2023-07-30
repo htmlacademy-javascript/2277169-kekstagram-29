@@ -32,7 +32,7 @@ const closeModal = () => {
   pristine.reset();
 
   uploadOverlay.classList.add('hidden');
-  bodyElement.classList.remove('.modal-open');
+  bodyElement.classList.remove('modal-open');
 
   uploadInput.value = ''; // сбрасывает значение поля выбора файла
 
@@ -43,7 +43,7 @@ const closeModal = () => {
 
 const openModal = () => {
   uploadOverlay.classList.remove('hidden');
-  bodyElement.classList.add('.modal-open');
+  bodyElement.classList.add('modal-open');
   uploadCancel.addEventListener('click', closeModal);
   document.addEventListener('keydown', onDocumentKeydown);
 
