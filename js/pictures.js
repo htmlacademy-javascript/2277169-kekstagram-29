@@ -1,3 +1,5 @@
+import { debounce } from './utils.js';
+
 const picturesContainer = document.querySelector('.pictures');
 const picturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -12,7 +14,15 @@ const createCard = (({id, url, description, likes, comments}) => {
   return card;
 });
 
+function resetPhotos() {
+  const pictures = picturesContainer.querySelectorAll('.picture');
+  pictures.forEach((picture)=> {
+    picture.remove();
+  });
+}
+
 const renderPictures = (pictures) => {
+  resetPhotos();
   const fragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     const card = createCard(picture);
@@ -21,4 +31,6 @@ const renderPictures = (pictures) => {
   picturesContainer.appendChild(fragment);
 };
 
-export { renderPictures };
+const renderPicturesWithDebounce = debounce(renderPictures);
+
+export { renderPictures, renderPicturesWithDebounce };
