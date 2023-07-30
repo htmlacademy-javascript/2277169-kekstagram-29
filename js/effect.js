@@ -55,7 +55,12 @@ const rangesSliderContainer = document.querySelector('.effect-level');
 const rangeSlider = document.querySelector('.effect-level__slider');
 const rangeSliderField = document.querySelector('.effect-level__value');
 const effectsList = document.querySelector('.effects');
-const image = document.querySelector('.img-upload__preview');
+const image = document.querySelector('.img-upload__preview img');
+
+const resetDefault = () => {
+  rangesSliderContainer.classList.add('hidden');
+  image.style.cssText = 'transform: scale(1); filter: none';
+};
 
 let currentEffect = DEFAULT_EFFECT;
 
@@ -116,3 +121,5 @@ noUiSlider.create(rangeSlider, {
 
 effectsList.addEventListener('click', onEffectsListClick);
 rangeSlider.noUiSlider.on('update', onRangeSliderUpdate);
+
+export { resetDefault };
