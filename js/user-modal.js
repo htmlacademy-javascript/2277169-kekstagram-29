@@ -1,6 +1,5 @@
-import './pictures.js';
 import { isEscapeKey} from './utils.js';
-import { data } from './data.js';
+import { data } from './load.js';
 
 const COMMENTS_IN_SECTION = 5;
 

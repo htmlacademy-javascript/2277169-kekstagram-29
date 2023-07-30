@@ -1,26 +1,17 @@
-// Функцию получения целого числа из переданного диапазона
-
-function getRandomInteger (min, max) {
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-  const result = Math.random() * (upper - lower + 1) + lower;
-
-  return Math.floor(result);
-}
-
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-// Функция-генератор для получения случайных идентификаторов
-
-const createIdGenerator = () => {
-  let lastGeneratedId = 0;
-
-  return () => {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-};
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, getRandomArrayElement, createIdGenerator, isEscapeKey};
+// const ALERT_SHOW_TIME = 10000;
+
+const showAlertError = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.classList.add('error-alert');
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+  // setTimeout(() => {
+  //   alertContainer.remove();
+  // }, ALERT_SHOW_TIME);
+};
+
+export { isEscapeKey, showAlertError };

@@ -1,5 +1,7 @@
 import { isEscapeKey } from './utils.js';
 import { resetScale } from './scale.js';
+import { sendData } from './api.js';
+import { showMessage } from './message.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -16,6 +18,7 @@ const uploadInput = form.querySelector('.img-upload__input');
 const uploadCancel = form.querySelector('.img-upload__cancel');
 const textHashtags = form.querySelector('.text__hashtags');
 const textDescription = form.querySelector('.text__description');
+const uploadSubmit = document.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -26,13 +29,12 @@ const pristine = new Pristine(form, {
 const closeModal = () => {
   form.reset();
   resetScale();
-  // resetEffect();
   pristine.reset();
 
   uploadOverlay.classList.add('hidden');
-  bodyElement.classList.remove('.modal-open');
+  bodyElement.classList.remove('modal-open');
 
-  uploadInput.value = ''; // сбрасывает значение поля выбора файла ??
+  uploadInput.value = ''; // сбрасывает значение поля выбора файла
 
   document.removeEventListener('keydown', onDocumentKeydown);
   textHashtags.removeEventListener('keydown', onFormFieldKeydown);
@@ -41,7 +43,7 @@ const closeModal = () => {
 
 const openModal = () => {
   uploadOverlay.classList.remove('hidden');
-  bodyElement.classList.add('.modal-open');
+  bodyElement.classList.add('modal-open');
   uploadCancel.addEventListener('click', closeModal);
   document.addEventListener('keydown', onDocumentKeydown);
 
@@ -49,6 +51,14 @@ const openModal = () => {
   textHashtags.addEventListener('keydown', onFormFieldKeydown);
   textDescription.addEventListener('keydown', onFormFieldKeydown);
 };
+
+function blockUploadSubmit() {
+  uploadSubmit.disabled = true;
+}
+
+function unblockUploadSubmit() {
+  uploadSubmit.disabled = false;
+}
 
 const normalizeTags = (tagString) => tagString.trim().split(' ').filter((tag) => Boolean(tag.length));
 
@@ -74,9 +84,25 @@ function onDocumentKeydown(evt) {
   }
 }
 
+const uploadFormData = async () => {
+  try {
+    const formData = new FormData(form);
+    blockUploadSubmit();
+    await sendData(formData);
+    unblockUploadSubmit();
+    showMessage('success');
+    closeModal();
+  } catch {
+    showMessage('error');
+  }
+};
+
 const onUploadFormSubmit = (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  if (!pristine.validate()) {
+    return;
+  }
+  uploadFormData();
 };
 
 pristine.addValidator(textHashtags, hasValidCount, ErrorText.INVALID_COUNT,3,true);
@@ -84,5 +110,4 @@ pristine.addValidator(textHashtags, hasUniqueTags, ErrorText.NOT_UNIQUE,1,true);
 pristine.addValidator(textHashtags, hasValidTags, ErrorText.INVALID_PATTERN,2,true);
 
 form.addEventListener('submit', onUploadFormSubmit);
-
 uploadInput.addEventListener('change', openModal);
