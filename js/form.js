@@ -49,7 +49,6 @@ const openModal = () => {
   uploadCancel.addEventListener('click', closeModal);
   document.addEventListener('keydown', onDocumentKeydown);
 
-
   textHashtags.addEventListener('keydown', onFormFieldKeydown);
   textDescription.addEventListener('keydown', onFormFieldKeydown);
 };
