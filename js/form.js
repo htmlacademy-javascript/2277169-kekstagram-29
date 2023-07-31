@@ -36,7 +36,7 @@ const closeModal = () => {
   uploadOverlay.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
-  uploadInput.value = ''; // сбрасывает значение поля выбора файла
+  uploadInput.value = '';
 
   document.removeEventListener('keydown', onDocumentKeydown);
   textHashtags.removeEventListener('keydown', onFormFieldKeydown);
