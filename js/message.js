@@ -1,32 +1,39 @@
 import { isEscapeKey } from './utils.js';
 
 const popupContainer = document.querySelector('main');
+let message;
 
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closePopup(evt);
+    closePopup();
   }
 }
 
-function closePopup (evt, cls) {
-  const { classList } = evt.target;
+function closePopup () {
+  message.remove();
+
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
+
+const onMessageClick = (evt, cls) => {
+  const classList = evt.target.classList;
 
   if (classList.contains(`${cls}__inner`) || classList.contains(`${cls}__title`)) {
     return;
   }
 
-  popupContainer.querySelector(`.${cls}`).remove();
+  closePopup();
+};
 
-  document.removeEventListener('keydown', onDocumentKeydown);
-}
 
 function showMessage(cls) {
-  const message = document.querySelector(`#${cls}`).cloneNode(true).content.querySelector(`.${cls}`);
+  message = document.querySelector(`#${cls}`).cloneNode(true).content.querySelector(`.${cls}`);
   popupContainer.insertAdjacentElement('afterbegin', message);
   message.classList.remove('hidden');
 
-  message.addEventListener('click', (evt) => closePopup(evt, cls));
+  message.addEventListener('click', onMessageClick);
+
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
