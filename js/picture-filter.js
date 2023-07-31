@@ -56,4 +56,4 @@ function initializeFilters() {
   filterDiscussedButton.addEventListener('click', onFilterClick);
 }
 
-initializeFilters();
+export { initializeFilters };

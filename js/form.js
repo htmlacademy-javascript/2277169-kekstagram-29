@@ -36,7 +36,7 @@ const closeModal = () => {
   uploadOverlay.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
-  uploadInput.value = ''; // сбрасывает значение поля выбора файла
+  uploadInput.value = '';
 
   document.removeEventListener('keydown', onDocumentKeydown);
   textHashtags.removeEventListener('keydown', onFormFieldKeydown);
@@ -48,7 +48,6 @@ const openModal = () => {
   bodyElement.classList.add('modal-open');
   uploadCancel.addEventListener('click', closeModal);
   document.addEventListener('keydown', onDocumentKeydown);
-
 
   textHashtags.addEventListener('keydown', onFormFieldKeydown);
   textDescription.addEventListener('keydown', onFormFieldKeydown);
@@ -95,6 +94,7 @@ const uploadFormData = async () => {
     showMessage('success');
     closeModal();
   } catch {
+    unblockUploadSubmit();
     showMessage('error');
   }
 };
