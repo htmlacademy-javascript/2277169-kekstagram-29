@@ -1,7 +1,7 @@
 import { isEscapeKey } from './utils.js';
 import { resetScale } from './scale.js';
 import { sendData } from './api.js';
-import { showMessage } from './message.js';
+import { showMessage, isError } from './message.js';
 import { resetDefault } from './effect.js';
 
 const MAX_HASHTAG_COUNT = 5;
@@ -81,7 +81,9 @@ function onFormFieldKeydown(evt) {
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeModal();
+    if (!isError()) {
+      closeModal();
+    }
   }
 }
 
