@@ -3,6 +3,8 @@ import { isEscapeKey } from './utils.js';
 const popupContainer = document.querySelector('main');
 let message;
 
+const isError = () => document.querySelector('.error');
+
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -26,15 +28,14 @@ const onMessageClick = (evt, cls) => {
   closePopup();
 };
 
-
 function showMessage(cls) {
   message = document.querySelector(`#${cls}`).cloneNode(true).content.querySelector(`.${cls}`);
   popupContainer.insertAdjacentElement('afterbegin', message);
   message.classList.remove('hidden');
 
-  message.addEventListener('click', onMessageClick);
+  message.addEventListener('click', (evt) => onMessageClick(evt, cls));
 
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
-export { showMessage };
+export { showMessage, isError };
